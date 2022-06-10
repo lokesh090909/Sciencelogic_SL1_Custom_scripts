@@ -7,10 +7,8 @@ from datetime import datetime, timedelta
 timeNow = datetime.now()
 
 __author__ = "Lokesh Choudhary"
-__copyright__ = "Copyright 2022, Dell Emc Inc."
 __version__ = "1.0"
 __maintainer__ = "Lokesh Choudhary"
-__email__ = "lokesh.choudhary@dell.com"
 __status__ = "Development"
 
 MY_SNIPPET_NAME = 'phonehome'
@@ -56,13 +54,13 @@ try:
     # Initialize instance of SSH client
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect('ud-em7-dba-09.gis.sms.local', username='em7admin', password='EM7adm1n!')
+    client.connect('HOSTNAME', username='USERNAME', password='PASSWORD')
     client.get_transport()
     cmd1 = "sudo su -c 'phonehome status'"
     cmd2 = "sudo phonehome view"
     final_dict = {}
     stdin, stdout, stderr = client.exec_command(command=cmd1,get_pty=True)
-    stdin.write("EM7adm1n!\n")
+    stdin.write("ROOT_PASSWORD\n")
     stdin.flush()
     time.sleep(10)
     phonehome_ID_list = []
@@ -77,7 +75,7 @@ try:
     #print (phonehome_ID)
     for ID in phonehome_ID_list:
         stdin, stdout, stderr = client.exec_command(command=cmd2 + ID,get_pty=True)
-        stdin.write("EM7adm1n!\n")
+        stdin.write("ROOT_PASSWORD\n")
         stdin.flush()
         time.sleep(3)
         for view in stdout.readlines():
